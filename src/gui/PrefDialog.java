@@ -2,6 +2,8 @@ package gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PrefDialog extends JDialog {
 
@@ -46,6 +48,20 @@ public class PrefDialog extends JDialog {
         add(cancelButton,gc);
 
 
+        okButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Integer value = (Integer)portSpinner.getValue();
+                System.out.println(value);
+                setVisible(false);
+            }
+        });
+
+
+        cancelButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+            }
+        });
 
 
         setSize(400,300);
