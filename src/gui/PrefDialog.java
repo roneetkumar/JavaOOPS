@@ -15,6 +15,8 @@ public class PrefDialog extends JDialog {
     private JTextField userField;
     private  JPasswordField passwordField;
 
+    private PrefListener prefListener;
+
     public PrefDialog(JFrame parent){
         super(parent,"Settings",false );
 
@@ -88,8 +90,9 @@ public class PrefDialog extends JDialog {
 
                 char[] password =  passwordField.getPassword();
 
-
-                System.out.println(user + ", " +  new String(password));
+                if (prefListener != null){
+                    prefListener.preferenceSet(user,new String(password),value);
+                }
                 setVisible(false);
             }
         });
@@ -105,4 +108,17 @@ public class PrefDialog extends JDialog {
         setSize(400,300);
         setLocationRelativeTo(parent);
     }
+
+
+    public void setPrefListener(PrefListener prefListener){
+        this.prefListener = prefListener;
+    }
+
+    public void setDefault(String user,String pass, int port){
+        userField.setText(user);
+        passwordField.setText(pass);
+        portSpinner.setValue(port);
+    }
+
+
 }

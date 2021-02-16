@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.prefs.Preferences;
 
 public class MainFrame extends JFrame {
     private JButton btn;
@@ -19,6 +20,8 @@ public class MainFrame extends JFrame {
     private TablePanel tablePanel;
     private PrefDialog prefDialog;
 
+    private Preferences prefs;
+
     private Controller controller;
 
     public MainFrame(){
@@ -27,6 +30,9 @@ public class MainFrame extends JFrame {
         formPanel = new FormPanel();
         tablePanel = new TablePanel();
         prefDialog = new PrefDialog(this);
+        prefs = Preferences.userRoot().node("db");
+
+
         textPanel = new TextPanel();
         btn = new JButton("Submit");
         toolbar = new Toolbar();
@@ -40,6 +46,22 @@ public class MainFrame extends JFrame {
 
             }
         });
+
+        prefDialog.setPrefListener(new PrefListener(){
+            public void preferenceSet(String user, String pass, int port) {
+                //System.out.println(user + ", " +  pass + ",  Port" + port);
+                prefs.put("user",user);
+                prefs.put("pass",pass);
+                prefs.putInt("port",port);
+            }
+        });
+
+        String user = prefs.get("user","");
+        String pass = prefs.get("pass","");
+        int port =  prefs.getInt("port", 3306);
+
+        prefDialog.setDefault(user,pass,port);
+
 
         fileChooser = new JFileChooser();
         fileChooser.addChoosableFileFilter(new PersonFileFilter());
