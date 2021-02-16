@@ -13,7 +13,7 @@ public class PrefDialog extends JDialog {
 
 
     public PrefDialog(JFrame parent){
-        super(parent,"Preference",false );
+        super(parent,"Settings",false );
 
         okButton = new JButton("OK");
         cancelButton = new JButton("Cancel");
