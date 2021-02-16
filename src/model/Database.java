@@ -1,15 +1,49 @@
 package model;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.*;
 
 public class Database{
 
     private List<Person> persons;
+    private Connection conn;
+
 
     public Database(){
         persons = new LinkedList<Person>();
     }
+
+
+    public void connect() throws Exception {
+
+        if (conn != null) return;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new Exception("Driver not found");
+        }
+
+        String connectionUrl = "jdbc:mysql://localhost:3306/db?useSSL=false";
+        conn = DriverManager.getConnection(connectionUrl,"root","abc123.");
+
+        System.out.println("Connected : ");
+
+
+    }
+
+    public  void disconnect(){
+        try {
+            conn.close();
+        } catch (SQLException throwables) {
+            System.out.println("Can't close the connection");
+        }
+    }
+
 
     public void addPerson(Person person){
         this.persons.add(person);

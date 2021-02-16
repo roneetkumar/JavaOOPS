@@ -27,11 +27,48 @@ public class PrefDialog extends JDialog {
         passwordField = new JPasswordField(10);
         passwordField.setEchoChar('#');
 
-
         spinnerModel = new SpinnerNumberModel(3306,0,9999,1);
-
         portSpinner = new JSpinner(spinnerModel);
 
+        layoutControls();
+
+        okButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Integer value = (Integer)portSpinner.getValue();
+
+                String user = userField.getText();
+
+                char[] password =  passwordField.getPassword();
+
+                if (prefListener != null){
+                    prefListener.preferenceSet(user,new String(password),value);
+                }
+                setVisible(false);
+            }
+        });
+
+        cancelButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+            }
+        });
+
+        setSize(400,300);
+        setLocationRelativeTo(parent);
+    }
+
+
+    public void setPrefListener(PrefListener prefListener){
+        this.prefListener = prefListener;
+    }
+
+    public void setDefault(String user,String pass, int port){
+        userField.setText(user);
+        passwordField.setText(pass);
+        portSpinner.setValue(port);
+    }
+
+    private void layoutControls(){
         setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
 
@@ -81,44 +118,6 @@ public class PrefDialog extends JDialog {
         gc.gridx++;
         add(cancelButton,gc);
 
-
-        okButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Integer value = (Integer)portSpinner.getValue();
-
-                String user = userField.getText();
-
-                char[] password =  passwordField.getPassword();
-
-                if (prefListener != null){
-                    prefListener.preferenceSet(user,new String(password),value);
-                }
-                setVisible(false);
-            }
-        });
-
-
-        cancelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-            }
-        });
-
-
-        setSize(400,300);
-        setLocationRelativeTo(parent);
     }
-
-
-    public void setPrefListener(PrefListener prefListener){
-        this.prefListener = prefListener;
-    }
-
-    public void setDefault(String user,String pass, int port){
-        userField.setText(user);
-        passwordField.setText(pass);
-        portSpinner.setValue(port);
-    }
-
 
 }
