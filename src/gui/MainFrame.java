@@ -17,6 +17,7 @@ public class MainFrame extends JFrame {
     private FormPanel formPanel;
     private JFileChooser fileChooser;
     private TablePanel tablePanel;
+    private PrefDialog prefDialog;
 
     private Controller controller;
 
@@ -25,6 +26,7 @@ public class MainFrame extends JFrame {
 
         formPanel = new FormPanel();
         tablePanel = new TablePanel();
+        prefDialog = new PrefDialog(this);
         textPanel = new TextPanel();
         btn = new JButton("Submit");
         toolbar = new Toolbar();
@@ -134,6 +136,17 @@ public class MainFrame extends JFrame {
         viewMenu.add(displayMenu);
 
         JMenu helpMenu=  new JMenu("Help");
+        JMenuItem prefItem = new JMenuItem("Preference");
+        helpMenu.add(prefItem);
+
+        prefItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                prefDialog.setVisible(true);
+            }
+        });
+
+
+
 
         JMenuItem projectMenu = new JMenuItem("Project");
         JMenuItem moduleMenu=  new JMenuItem("Module");
