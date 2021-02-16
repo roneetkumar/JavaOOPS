@@ -39,7 +39,7 @@ public class Database{
     public  void disconnect(){
         try {
             conn.close();
-        } catch (SQLException throwables) {
+        } catch (SQLException throwable) {
             System.out.println("Can't close the connection");
         }
     }
