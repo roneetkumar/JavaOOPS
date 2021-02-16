@@ -1,9 +1,7 @@
 package model;
 
 import java.io.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 
 public class Database{
@@ -19,6 +17,8 @@ public class Database{
 
     public void connect() throws Exception {
 
+        persons.add(new Person("Roneet","developer", AgeGroup.adult,Subject.go,"12345",true,Gender.male));
+        persons.add(new Person("Person","developer", AgeGroup.adult,Subject.go,"12345",true,Gender.male));
         if (conn != null) return;
 
         try {
@@ -41,6 +41,26 @@ public class Database{
             conn.close();
         } catch (SQLException throwable) {
             System.out.println("Can't close the connection");
+        }
+    }
+
+    public void save(){
+        String checkSql = "SELECT count(*) AS count FROM persons WHERE job=?";
+        PreparedStatement checkStmt = null;
+        try {
+            checkStmt = conn.prepareStatement(checkSql);
+            for (Person person:persons){
+                String job= person.getJob();
+
+                checkStmt.setString(1,job);
+                ResultSet res = checkStmt.executeQuery();
+                res.next();
+                int count = res.getInt(1);
+                System.out.println("Count for person with ID "+ job+ " is " +  count);
+            }
+            checkStmt.close();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
         }
     }
 

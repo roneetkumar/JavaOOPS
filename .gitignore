@@ -1,4 +1,4 @@
-/*
-/*/
-!/src/
-!/.gitignore
+.idea
+out
+lib
+./Swing.iml

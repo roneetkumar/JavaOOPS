@@ -9,11 +9,15 @@ public class TestDB {
 
         Database db = new Database();
 
+
         try {
             db.connect();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        db.save();
+
         db.disconnect();
 
 
