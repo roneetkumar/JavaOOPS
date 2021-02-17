@@ -5,6 +5,7 @@ import gui.FormEvent;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class Controller {
@@ -14,6 +15,27 @@ public class Controller {
     public List<Person> getPersons(){
         return db.getPerson();
     }
+
+
+    public void save() throws SQLException {
+        db.save();
+    }
+
+    public void load() throws SQLException{
+        db.load();
+    }
+
+
+    public void connect() throws Exception {
+        db.connect();
+    }
+
+    public void disconnect(){
+        db.disconnect();
+    }
+
+
+
 
     public void addPerson(FormEvent e){
         String name = e.getName();

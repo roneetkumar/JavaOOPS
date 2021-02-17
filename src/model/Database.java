@@ -17,9 +17,6 @@ public class Database{
 
     public void connect() throws Exception {
 
-        persons.add(new Person("Roneet","developer", AgeGroup.adult,Subject.go,"12345",true,Gender.male));
-        persons.add(new Person("Person","developer", AgeGroup.adult,Subject.go,"12345",true,Gender.male));
-
         if (conn != null) return;
 
         try {
@@ -45,12 +42,12 @@ public class Database{
         }
     }
 
-    public void save(){
+    public void save() throws SQLException {
 
         try {
         String checkSql = "SELECT count(*) AS count FROM persons WHERE id=?";
 
-        String insertSql = "INSERT INTO persons (id, name, age, subject, sin, is_citizen, gender, job) VALUES(?,?,?,?,?,?,?,?)";
+        String insertSql = "INSERT INTO persons (name, age, subject, sin, is_citizen, gender, job) VALUES(?,?,?,?,?,?,?)";
 
         String updateSql = "UPDATE persons SET name=?, age=?, subject=?, sin=?, is_citizen=?, gender=?, job=? WHERE id=?";
 
@@ -75,14 +72,14 @@ public class Database{
 
                 if(count == 0){
                     System.out.println("Inserting person with ID : " + id);
-                    insertStatement.setInt(1,id);
-                    insertStatement.setString(2,name);
-                    insertStatement.setString(3,age.name());
-                    insertStatement.setString(4,subject.name());
-                    insertStatement.setString(5,sin);
-                    insertStatement.setBoolean(6,isCitizen);
-                    insertStatement.setString(7,gender.name());
-                    insertStatement.setString(8,job);
+//                    insertStatement.setInt(1,id);
+                    insertStatement.setString(1,name);
+                    insertStatement.setString(2,age.name());
+                    insertStatement.setString(3,subject.name());
+                    insertStatement.setString(4,sin);
+                    insertStatement.setBoolean(5,isCitizen);
+                    insertStatement.setString(6,gender.name());
+                    insertStatement.setString(7,job);
                     insertStatement.executeUpdate();
                 }else{
                     System.out.println("Updating person with ID : " + id);
@@ -105,11 +102,11 @@ public class Database{
             checkStmt.close();
             updateStatement.close();
         } catch (SQLException throwable) {
-            throwable.printStackTrace();
+           throw throwable;
         }
     }
 
-    public void load(){
+    public void load() throws SQLException {
         persons.clear();
         try {
             String sql = "SELECT * FROM persons";
@@ -127,12 +124,12 @@ public class Database{
                 boolean is_citizen =  res.getBoolean("is_citizen");
                 String subject =  res.getString("subject");
 
-                System.out.println(name);
+                Person p = new Person(id,name,job,AgeGroup.valueOf(age),Subject.valueOf(subject),sin,is_citizen,Gender.valueOf(gender));
+                persons.add(p);
+                System.out.println(p);
             }
-
-
         } catch (SQLException throwable) {
-            throwable.printStackTrace();
+            throw throwable;
         }
     }
 

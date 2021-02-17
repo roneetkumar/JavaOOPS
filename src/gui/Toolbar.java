@@ -7,29 +7,29 @@ import java.awt.event.ActionListener;
 
 public class Toolbar extends JPanel implements ActionListener {
 
-    private JButton openBtn;
-    private JButton closeBtn;
-    private StringListener textListener;
+    private JButton saveBtn;
+    private JButton refreshBtn;
+    private ToolbarListener toolbarListener;
 
 
     public Toolbar(){
 
         setBorder(BorderFactory.createEtchedBorder());
-        openBtn = new JButton("Open");
-        closeBtn = new JButton("Close");
+        saveBtn = new JButton("Save");
+        refreshBtn = new JButton("Refresh");
 
-        openBtn.addActionListener(this);
-        closeBtn.addActionListener(this);
+        saveBtn.addActionListener(this);
+        refreshBtn.addActionListener(this);
 
         setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        add(openBtn);
-        add(closeBtn);
+        add(saveBtn);
+        add(refreshBtn);
 
     }
 
-    public void setStringListener(StringListener textListener){
-        this.textListener = textListener;
+    public void setStringListener(ToolbarListener textListener){
+        this.toolbarListener = textListener;
     }
 
     @Override
@@ -37,13 +37,13 @@ public class Toolbar extends JPanel implements ActionListener {
         JButton clicked = (JButton) e.getSource();
 
         switch (clicked.getText()) {
-            case "Open":
-                if (this.textListener != null)
-                    this.textListener.textEmitter("Panel Opened\n");
+            case "Save":
+                if (this.toolbarListener != null)
+                    this.toolbarListener.saveEvent();
                 break;
-            case "Close":
-                if (this.textListener != null)
-                    this.textListener.textEmitter("Panel Closed\n");
+            case "Refresh":
+                if (this.toolbarListener != null)
+                    this.toolbarListener.refreshEvent();
                 break;
             default:
                 break;
