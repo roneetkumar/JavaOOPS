@@ -11,7 +11,6 @@ public class Controller {
 
     private Database db = new Database();
 
-
     public List<Person> getPersons(){
         return db.getPerson();
     }

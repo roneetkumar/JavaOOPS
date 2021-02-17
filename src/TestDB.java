@@ -17,6 +17,7 @@ public class TestDB {
         }
 
         db.save();
+        db.load();
 
         db.disconnect();
 
